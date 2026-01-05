@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Bookings – LocalService</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar-brand { font-weight: 700; }
+        .nav-link { font-weight: 500; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.3)),
+                         var(--hero-bg) center/cover no-repeat;
+            height: 40vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero h1 { font-size: 2.8rem; font-weight: 700; }
+
+        /* Booking Card */
+        .booking-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .booking-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container">
+        <a class="navbar-brand" href="/">LocalService</a>
+        <div class="ms-auto">
+            <a th:href="@{/user/dashboard}" class="btn btn-outline-light btn-sm me-2">Dashboard</a>
+            <a th:href="@{/user/profile}" class="btn btn-outline-light btn-sm me-2">Profile</a>
+            <a th:href="@{/user/bookings}" class="btn btn-outline-light btn-sm me-2">Bookings</a>
+            <a th:href="@{/logout}" class="btn btn-warning btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero mb-5" data-aos="fade-down" style="--hero-bg: url('/images/default.jpg');">
+    <div class="container">
+        <h1>Your Bookings</h1>
+        <p>Check your current and past service bookings. Manage your requests with ease.</p>
+    </div>
+</section>
+
+<!-- BOOKINGS -->
+<section class="container mb-5">
+   <div class="container py-3">
+    <table class="table table-striped bg-white shadow rounded">
+        <thead class="table-dark">
+            <tr>
+                <th>Service</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${bookings}">
+                <td th:text="${b.serviceName}"></td>
+                <td th:text="${b.address}"></td>
+                <td th:text="${b.city}"></td>
+                <td th:text="${b.dateTime}"></td>
+                <td th:text="${b.status}"></td>
+                <td>
+                    <form th:action="@{/user/delete-booking/{id}(id=${b.id})}" method="post">
+                      <button class="bg-danger text-white">
+                          Delete
+                      </button>
+                    </form>
+                </td>
+             
+            </tr>
+        </tbody>
+    </table>
+
+         <!-- Empty -->
+                <div class="col-12 text-center" th:if="${#lists.isEmpty(bookings)}">
+                    <p class="text-muted fs-5">No bookings assigned yet.</p>
+                </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 text-center">
+    <p class="mb-1">© 2025 LocalService. All rights reserved.</p>
+    <small>Trusted home services at your fingertips</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 900, once: true });
+</script>
+
+</body>
+</html>

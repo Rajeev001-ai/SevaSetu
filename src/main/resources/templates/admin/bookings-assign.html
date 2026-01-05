@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Booking Assignment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color:#fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar{
+            background:#0f172a;
+            min-height:100vh;
+            padding:20px 15px;
+        }
+
+        .sidebar a{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:12px 15px;
+            margin-bottom:12px;
+            color:#cbd5e1;
+            text-decoration:none;
+            border-radius:10px;
+            transition:0.3s;
+            font-weight:500;
+        }
+
+        .sidebar a:hover, .sidebar a.active{
+            background:#1e293b;
+            color:#38bdf8;
+        }
+
+        .glass-card{
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px);
+            border-radius:16px;
+            padding:25px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .status{
+            padding:5px 14px;
+            border-radius:30px;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .pending{ background:#fef3c7; color:#92400e; }
+        .assigned{ background:#dcfce7; color:#166534; }
+
+        .btn-assign{
+            border-radius:30px;
+            font-size:13px;
+            padding:6px 14px;
+        }
+
+        select{
+            border-radius:20px !important;
+        }
+
+        @media(max-width:768px){
+            .sidebar{ min-height:auto; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold">Admin Panel</span>
+    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+     <div class="col-md-2 sidebar">
+          <a href="/admin/dashboard"><i class="fa fa-home"></i> Dashboard</a>
+          <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
+          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+          <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
+          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+          <a href="/admin/bookings-assign" class="active"><i class="fa fa-user-check"></i> Assign Bookings</a>
+          <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-md-10 p-4">
+
+            <!-- HEADER -->
+            <div class="glass-card mb-4">
+                <h3>
+                    <i class="fa fa-calendar-plus me-2"></i>
+                    Booking Assignment
+                </h3>
+                <p class="text-light" style="line-height:1.8;">
+                    This section allows the administrator to assign user service bookings
+                    to verified helpers. Admins can review booking details such as service
+                    type, user information, preferred date/time, and then manually assign
+                    the most suitable helper based on availability and expertise.
+                </p>
+            </div>
+
+            <!-- BOOKINGS TABLE -->
+            <div class="glass-card">
+                <h5 class="mb-3">
+                    <i class="fa fa-list me-2"></i>
+                    Pending Bookings
+                </h5>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Service</th>
+                             <th>City</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Assign Helper</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="booking, i : ${bookings}">
+                            <td th:text="${i.count}">1</td>
+                            <td th:text="${booking.user.name}">Rahul</td>
+                            <td th:text="${booking.serviceName}">Electrician</td>
+                             <td th:text="${booking.city}">City</td>
+                            <td th:text="${booking.dateTime}">28 Dec 2025</td>
+
+                            <td>
+                                <span class="status"
+                                      th:classappend="${booking.helper == null} ? 'pending' : 'assigned'"
+                                      th:text="${booking.helper == null ? 'PENDING' : 'ASSIGNED'}">
+                                </span>
+                            </td>
+
+                            <!-- ASSIGN HELPER -->
+                            <td>
+                                <form th:action="@{/admin/bookings-assign/{id}(id=${booking.id})}"
+                                      method="post"
+                                      class="d-flex gap-2">
+
+                                    <select name="helperId" class="form-select form-select-sm"
+                                            required>
+                                        <option value="">Select Helper</option>
+                                        <option th:each="helper : ${helpers}"
+                                                th:value="${helper.id}"
+                                                th:text="${helper.name}">
+                                        </option>
+                                    </select>
+                            </td>
+
+                            <td>
+                                    <button class="btn btn-success btn-assign">
+                                        <i class="fa fa-user-check"></i> Assign
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="text-center text-muted mt-3"
+                   th:if="${#lists.isEmpty(bookings)}">
+                    No pending bookings available.
+                </p>
+            </div>
+
+            <!-- INFO -->
+            <div class="glass-card mt-4">
+                <h5>
+                    <i class="fa fa-circle-info me-2"></i>
+                    Admin Guidelines
+                </h5>
+                <p class="text-light" style="line-height:1.8;">
+                    Booking assignment should consider helper workload, skill set,
+                    and service location. Once a booking is assigned, the helper
+                    will receive it in their panel where they can accept or reject it.
+                    This ensures quality service delivery and accountability.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Manage Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            min-height: 100vh;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 22px 15px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1e293b;
+            color: #38bdf8;
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
+
+        /* Card */
+        .glass-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+        }
+
+        .table th {
+            color: #7dd3fc;
+        }
+
+        .status {
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .active-user {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .blocked-user {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-action {
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        @media(max-width:768px){
+            .sidebar {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold">Admin Panel</span>
+    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+       <div class="col-md-2 sidebar">
+          <a href="/admin/dashboard"><i class="fa fa-home"></i> Dashboard</a>
+          <a href="/admin/users" class="active"><i class="fa fa-users"></i> Users</a>
+          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+          <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
+          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+          <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
+          <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-md-10 p-4">
+
+            <!-- HEADER -->
+            <div class="glass-card mb-4">
+                <h3 class="mb-2">
+                    <i class="fa fa-users me-2"></i>
+                    User Management
+                </h3>
+                <p class="text-light" style="line-height:1.8;">
+                    This section allows administrators to manage platform users.
+                    Admins can enable or disable users based on activity, policy violations,
+                    or suspicious behavior. Disabling a user will prevent them from
+                    creating new bookings or accessing services.
+                </p>
+            </div>
+
+            <!-- USERS TABLE -->
+            <div class="glass-card">
+                <h5 class="mb-3">
+                    <i class="fa fa-list me-2"></i>
+                    Registered Users
+                </h5>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Registered On</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="user, i : ${users}">
+                                <td th:text="${i.count}">1</td>
+                                <td th:text="${user.name}">Amit</td>
+                                <td th:text="${user.email}">amit@gmail.com</td>
+                                <td th:text="${user.phone}">9876543210</td>
+                                <td th:text="${user.createdAt}">25 Dec 2025</td>
+
+                                <td>
+                                    <span class="status"
+                                          th:classappend="${user.enabled} ? 'active-user' : 'blocked-user'"
+                                          th:text="${user.enabled ? 'ACTIVE' : 'BLOCKED'}">
+                                    </span>
+                                </td>
+
+                                <td class="d-flex gap-2 flex-wrap">
+
+                                    <form th:if="${user.enabled}"
+                                          th:action="@{/admin/user/block/{id}(id=${user.id})}"
+                                          method="post">
+                                        <button class="btn btn-danger btn-action">
+                                            <i class="fa fa-ban"></i> Disable
+                                        </button>
+                                    </form>
+
+                                    <form th:if="${!user.enabled}"
+                                          th:action="@{/admin/user/approve/{id}(id=${user.id})}"
+                                          method="post">
+                                        <button class="btn btn-success btn-action">
+                                            <i class="fa fa-check"></i> Enable
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="text-center text-muted mt-3"
+                   th:if="${#lists.isEmpty(users)}">
+                    No users found.
+                </p>
+            </div>
+
+            <!-- INFO -->
+            <div class="glass-card mt-4">
+                <h5>
+                    <i class="fa fa-circle-info me-2"></i>
+                    Important Notes
+                </h5>
+                <p class="text-light" style="line-height:1.8;">
+                    Users should only be disabled in case of policy violations, repeated
+                    cancellations, or suspicious behavior. Enabling a user restores
+                    full access to the platform. Maintain transparency and audit logs
+                    for all administrative actions.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

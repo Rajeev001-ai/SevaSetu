@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Admin Dashboard</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #fff;
+      }
+      .sidebar {
+        background: #1b263b;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .sidebar a {
+        color: #cfd8dc;
+        display: block;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        background: #0f3460;
+        color: #00d4ff;
+      }
+      .card-box {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+      }
+      .card-box i {
+        font-size: 35px;
+        color: #00d4ff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark bg-dark px-4">
+      <span class="navbar-brand">Admin Panel</span>
+      <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 sidebar">
+          <a href="/admin/dashboard" class="active"><i class="fa fa-home"></i> Dashboard</a>
+          <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
+          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+          <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
+          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+          <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
+          <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
+        </div>
+
+        <div class="col-md-10 p-4">
+          <h3 class="mb-4">Dashboard Overview</h3>
+
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card-box">
+                <i class="fa fa-users mb-2"></i>
+                <h5>Users</h5>
+                <h3 th:text="${totalUsers}">0</h3>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-box">
+                <i class="fa fa-user-check mb-2"></i>
+                <h5>Helpers</h5>
+                <h3 th:text="${totalHelpers}">0</h3>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-box">
+                <i class="fa fa-calendar-check mb-2"></i>
+                <h5>Bookings</h5>
+                <h3 th:text="${totalBookings}">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-12">
+              <div class="card-box">
+                <h4 class="mb-3">
+                  <i class="fa fa-chart-line me-2"></i>
+                  Platform Overview
+                </h4>
+
+                <p class="text-light" style="line-height: 1.8">
+                  Welcome to the <strong>Admin Control Panel</strong>. This
+                  dashboard gives you complete control over the Local Service
+                  platform. From here, you can monitor users, helpers, service
+                  bookings, and overall system performance in real-time.
+                </p>
+
+                <p class="text-light" style="line-height: 1.8">
+                  As an administrator, your responsibility is to ensure smooth
+                  operations between customers and service providers. You can
+                  verify helpers, manage active services, track booking
+                  statuses, and monitor revenue generated across the platform.
+                </p>
+
+                <p class="text-light" style="line-height: 1.8">
+                  The statistics above provide a quick snapshot of current
+                  activity. You can dive deeper into each module using the
+                  navigation menu on the left. Each section is designed to give
+                  you detailed insights and full administrative control.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <div class="card-box h-100">
+                <h5 class="mb-3">
+                  <i class="fa fa-user-shield me-2"></i>
+                  Admin Responsibilities
+                </h5>
+
+                <ul style="line-height: 2">
+                  <li>Approve or reject helper registrations</li>
+                  <li>Monitor and manage user activity</li>
+                  <li>Track booking lifecycle from request to completion</li>
+                  <li>Resolve disputes and handle escalations</li>
+                  <li>Ensure data accuracy and system security</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="card-box h-100">
+                <h5 class="mb-3">
+                  <i class="fa fa-cogs me-2"></i>
+                  System Management
+                </h5>
+
+                <ul style="line-height: 2">
+                  <li>Manage available service categories</li>
+                  <li>Enable or disable helpers when required</li>
+                  <li>Monitor platform earnings and commissions</li>
+                  <li>Analyze performance trends</li>
+                  <li>Maintain overall service quality</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4 mb-5">
+            <div class="col-12">
+              <div class="card-box">
+                <h5 class="mb-2">
+                  <i class="fa fa-info-circle me-2"></i>
+                  Important Note
+                </h5>
+
+                <p class="text-light" style="line-height: 1.8">
+                  This admin panel is designed to scale as the platform grows.
+                  As new services, helpers, and users are added, the dashboard
+                  will automatically reflect updated data. Always ensure helpers
+                  are verified before allowing them to accept bookings to
+                  maintain trust and service quality.
+                </p>
+
+                <p class="text-light" style="line-height: 1.8">
+                  Regularly review booking statuses and earnings reports to
+                  ensure transparency and smooth business operations.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

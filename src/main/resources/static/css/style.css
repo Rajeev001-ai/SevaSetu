@@ -1,0 +1,35 @@
+body {
+  padding-top: 70px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Hero */
+.hero {
+  min-height: 90vh;
+  background: linear-gradient(120deg, #eef2ff, #ffffff);
+}
+
+.hero-img {
+  max-height: 420px;
+}
+
+/* Service Cards */
+.service-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+}
+
+/* Steps */
+.step-card {
+  padding: 30px;
+  border-radius: 16px;
+  background: #f8f9fa;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}

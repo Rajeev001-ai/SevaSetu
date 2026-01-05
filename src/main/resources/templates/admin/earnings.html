@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Earnings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+            color:#fff;
+            font-family:'Poppins',sans-serif;
+        }
+
+        .sidebar{
+            background:#0f172a;
+            min-height:100vh;
+            padding:20px;
+        }
+
+        .sidebar a{
+            display:flex;
+            gap:10px;
+            padding:12px 15px;
+            margin-bottom:12px;
+            color:#cbd5e1;
+            text-decoration:none;
+            border-radius:10px;
+            transition:.3s;
+        }
+
+        .sidebar a:hover,.sidebar a.active{
+            background:#1e293b;
+            color:#38bdf8;
+        }
+
+        .glass{
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(14px);
+            border-radius:18px;
+            padding:25px;
+            box-shadow:0 15px 40px rgba(0,0,0,.4);
+        }
+
+        .stat-card{
+            transition:.3s;
+        }
+        .stat-card:hover{
+            transform:translateY(-6px);
+        }
+
+        .stat-icon{
+            font-size:34px;
+            opacity:.9;
+        }
+
+        table th,table td{
+            vertical-align:middle;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold">Admin Panel</span>
+    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+</nav>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- SIDEBAR -->
+        <div class="col-md-2 sidebar">
+          <a href="/admin/dashboard" ><i class="fa fa-home"></i> Dashboard</a>
+          <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
+          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+          <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
+          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+          <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
+          <a href="/admin/earnings" class="active"><i class="fa fa-wallet"></i> Earnings</a>
+        </div>
+
+<!-- MAIN -->
+<div class="col-md-10 p-4">
+
+    <!-- HEADER -->
+    <div class="glass mb-4">
+        <h3><i class="fa fa-wallet me-2"></i>Earnings Overview</h3>
+        <p class="text-light" style="line-height:1.8;">
+            This dashboard gives administrators a complete financial overview of the platform,
+            including total revenue generated from completed services, commission earned by
+            the platform, and payouts made to helpers.
+        </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+            <div class="glass stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Total Revenue</h6>
+                        <h3>₹ <span th:text="${totalRevenue}">0</span></h3>
+                    </div>
+                    <i class="fa fa-indian-rupee-sign stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="glass stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Admin Commission</h6>
+                        <h3>₹ <span th:text="${adminCommission}">0</span></h3>
+                        <small>20% Platform Fee</small>
+                    </div>
+                    <i class="fa fa-percent stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="glass stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>Helper Payout</h6>
+                        <h3>₹ <span th:text="${helperPayout}">0</span></h3>
+                    </div>
+                    <i class="fa fa-user-check stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- COMPLETED BOOKINGS -->
+    <div class="glass">
+        <h5 class="mb-3"><i class="fa fa-list-check me-2"></i>Completed Bookings</h5>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Helper</th>
+                    <th>Service</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="b, i : ${completedBookings}">
+                    <td th:text="${i.count}">1</td>
+                    <td th:text="${b.user.name}">User</td>
+                    <td th:text="${b.helper.name}">Helper</td>
+                    <td th:text="${b.serviceName}">Cleaning</td>
+                    <td>₹ <span th:text="${b.price}">0</span></td>
+                    <td th:text="${#temporals.format(b.dateTime,'dd MMM yyyy')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-center text-muted mt-3"
+           th:if="${#lists.isEmpty(completedBookings)}">
+            No completed bookings yet.
+        </p>
+    </div>
+
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LocalService – Home Services Made Easy</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* HERO */
+      .hero {
+        background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.75),
+            rgba(0, 0, 0, 0.4)
+          ),
+        var(--hero-bg) center/cover no-repeat;
+        height: 90vh;
+        color: white;
+        display: flex;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-size: 3.3rem;
+        font-weight: 700;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        max-width: 650px;
+      }
+
+      /* SERVICE CARD */
+      .service-card {
+        border: none;
+        overflow: hidden;
+        transition: all 0.35s ease;
+      }
+
+      .service-card img {
+        height: 180px;
+        object-fit: cover;
+      }
+
+@media (max-width: 768px) {
+  .stats h2 {
+    font-size: 1.8rem;
+  }
+
+  .stats p {
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 576px) {
+  footer p,
+  footer small {
+    font-size: 0.85rem;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .service-card img {
+    height: 150px;
+  }
+}
+
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .section-title {
+        font-weight: 700;
+        color: #1f2937;
+      }
+
+      /* STATS */
+      .stats {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: white;
+      }
+
+      footer {
+        background: #0f172a;
+        color: #cbd5e1;
+      }
+      /* RESPONSIVE FIXES */
+      @media (max-width: 992px) {
+        .hero {
+          height: auto;
+          padding: 120px 0 80px;
+          text-align: center;
+        }
+
+        .hero h1 {
+          font-size: 2.4rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+          margin: auto;
+        }
+
+        .navbar .btn {
+          margin-top: 5px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .service-card img {
+          height: 160px;
+        }
+
+        .section-title {
+          font-size: 1.6rem;
+        }
+
+        .stats h2 {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero p {
+          font-size: 0.95rem;
+        }
+
+        footer p {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">SevaSetu</a>
+        <div class="ms-auto">
+          <a th:href="@{/login}" class="btn btn-outline-light btn-sm me-2">Login</a>
+          <a th:href="@{/register}" class="btn btn-warning btn-sm">Get Started</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" style="--hero-bg: url('/images/default.jpg');">
+      <div class="container" data-aos="fade-right">
+        <h1>Professional Home Services<br />in Your City</h1>
+        <p class="mt-3">
+          From home cleaning to electrical repairs, we connect you with trusted
+          and verified local professionals. Simple booking, transparent pricing
+          and cash-on-delivery service.
+        </p>
+        <a th:href="@{/register}" class="btn btn-warning btn-lg mt-4"
+          >Book a Service</a
+        >
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="py-5">
+      <div class="container">
+        <h2 class="text-center section-title mb-3" data-aos="fade-up">Our Services</h2>
+        <p class="text-center text-muted mb-5" data-aos="fade-up">
+          High quality services delivered by trained professionals at your doorstep.
+        </p>
+
+        <div class="row g-4">
+          <!-- Service Cards with fallback images -->
+          <div class="col-6 col-md-3" data-aos="zoom-in">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/cleaning.jpg}" alt="Cleaning"/>
+              <div class="card-body">
+                <h5>Home Cleaning</h5>
+                <p class="text-muted small">Deep cleaning for kitchens, bathrooms and full homes using professional tools.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/plumber.jpg}" alt="Plumber" />
+              <div class="card-body">
+                <h5>Plumbing</h5>
+                <p class="text-muted small">Leak fixing, tap repair, pipe replacement and bathroom fittings.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/electrical.jpg}" alt="Electrical" />
+              <div class="card-body">
+                <h5>Electrical</h5>
+                <p class="text-muted small">Switch repair, fan installation, wiring and inverter setup.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/ac.jpg}" alt="Ac Repair" />
+              <div class="card-body">
+                <h5>Appliance Repair</h5>
+                <p class="text-muted small">AC, fridge, washing machine and RO servicing by experts.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/mechanical.jpg}" alt="Pest Control" />
+              <div class="card-body">
+                <h5>Pest Control</h5>
+                <p class="text-muted small">Safe and effective pest control for homes and offices.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/painting.jpg}" alt="Painting" />
+              <div class="card-body">
+                <h5>Painting</h5>
+                <p class="text-muted small">Interior & exterior painting with premium quality finishes.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/delivery.jpg}" alt="Delivery" />
+              <div class="card-body">
+                <h5>Delivery</h5>
+                <p class="text-muted small">Trusty Delivery Services</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+            <div class="card service-card h-100">
+              <img th:src="@{/images/carpentry.jpg}" alt="Carpentry" />
+              <div class="card-body">
+                <h5>Carpentry</h5>
+                <p class="text-muted small">Furniture repair, installation and custom wood work.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center section-title mb-4" data-aos="fade-up">
+          Why LocalService?
+        </h2>
+
+        <p class="text-center text-muted mb-5" data-aos="fade-up">
+          We are building a reliable local service ecosystem where customers,
+          helpers and admins work together transparently.
+        </p>
+
+        <div class="row text-center">
+          <div class="col-md-4" data-aos="fade-up">
+            <h5>✔ Verified & Approved Helpers</h5>
+            <p>
+              Every helper is manually approved by admin before receiving jobs.
+            </p>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <h5>✔ Location-Based Assignment</h5>
+            <p>Requests are assigned to nearby helpers for faster service.</p>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <h5>✔ Pay After Work</h5>
+            <p>Cash on delivery – pay only when work is completed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <h2 class="text-center section-title mb-4" data-aos="fade-up">
+          How LocalService Works
+        </h2>
+
+        <div class="row text-center">
+          <div class="col-md-3" data-aos="fade-up">
+            <h5>1️⃣ Choose Service</h5>
+            <p class="text-muted">
+              Select the service you need and share basic details about the
+              work.
+            </p>
+          </div>
+          <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+            <h5>2️⃣ Helper Assigned</h5>
+            <p class="text-muted">
+              Nearby verified helper is assigned by our system automatically.
+            </p>
+          </div>
+          <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+            <h5>3️⃣ Job Completed</h5>
+            <p class="text-muted">
+              Helper completes the work professionally at your location.
+            </p>
+          </div>
+          <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+            <h5>4️⃣ Pay Securely</h5>
+            <p class="text-muted">
+              Pay only after work completion. No advance payment required.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FAQ -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center section-title mb-4" data-aos="fade-up">
+          Frequently Asked Questions
+        </h2>
+
+        <div class="row">
+          <div class="col-md-6" data-aos="fade-up">
+            <h6>Are helpers verified?</h6>
+            <p class="text-muted">
+              Yes, every helper goes through document verification and admin
+              approval.
+            </p>
+
+            <h6>Do I need to pay in advance?</h6>
+            <p class="text-muted">
+              No. We support pay-after-service for complete transparency.
+            </p>
+          </div>
+
+          <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <h6>Can I cancel a booking?</h6>
+            <p class="text-muted">
+              Yes, bookings can be cancelled before helper assignment without
+              charges.
+            </p>
+
+            <h6>Which cities are supported?</h6>
+            <p class="text-muted">
+              We are expanding rapidly across major Indian cities.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section
+      class="py-5 text-center text-white"
+      style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364)"
+    >
+      <div class="container">
+        <h2 class="mb-3" data-aos="zoom-in">
+          Ready to Book a Trusted Local Professional?
+        </h2>
+        <p class="mb-4" data-aos="zoom-in">
+          Join thousands of happy customers using LocalService every day.
+        </p>
+        <a href="/register" class="btn btn-warning btn-lg" data-aos="zoom-in">
+          Get Started Now
+        </a>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-3">
+            <h2>10+</h2>
+            <p>Cities</p>
+          </div>
+          <div class="col-md-3">
+            <h2>500+</h2>
+            <p>Helpers</p>
+          </div>
+          <div class="col-md-3">
+            <h2>5K+</h2>
+            <p>Bookings</p>
+          </div>
+          <div class="col-md-3">
+            <h2>4.8★</h2>
+            <p>Rating</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-4 text-center">
+      <p class="mb-1">© 2025 LocalService. All rights reserved.</p>
+      <small>Built for real Indian cities</small>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 900, once: true });
+    </script>
+  </body>
+</html>

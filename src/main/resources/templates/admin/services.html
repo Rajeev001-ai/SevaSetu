@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+            color:#fff;
+            font-family:'Poppins',sans-serif;
+        }
+        .sidebar{
+            background:#0f172a;
+            min-height:100vh;
+            padding:20px;
+        }
+        .sidebar a{
+            display:flex;
+            gap:10px;
+            padding:12px 15px;
+            margin-bottom:12px;
+            color:#cbd5e1;
+            text-decoration:none;
+            border-radius:10px;
+            transition:.3s;
+        }
+        .sidebar a:hover,.sidebar a.active{
+            background:#1e293b;
+            color:#38bdf8;
+        }
+        .glass{
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(14px);
+            border-radius:18px;
+            padding:25px;
+            box-shadow:0 15px 40px rgba(0,0,0,.4);
+        }
+        .service-card{
+            background:rgba(255,255,255,0.05);
+            border-radius:16px;
+            padding:20px;
+            transition:.3s;
+        }
+        .service-card:hover{
+            transform:translateY(-6px);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold">Admin Panel</span>
+    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+</nav>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- SIDEBAR -->
+  <div class="col-md-2 sidebar">
+          <a href="/admin/dashboard"><i class="fa fa-home"></i> Dashboard</a>
+          <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
+          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+          <a href="/admin/services" class="active"><i class="fa fa-tools"></i> Services</a>
+          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+          <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
+          <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
+        </div>
+
+<!-- MAIN -->
+<div class="col-md-10 p-4">
+
+    <!-- HEADER -->
+    <div class="glass mb-4">
+        <h3><i class="fa fa-tools me-2"></i>Service Management</h3>
+        <p class="text-light" style="line-height:1.8;">
+            Manage all platform services from a single place. 
+            Admins can add new services, control availability, and ensure 
+            standardized pricing across the platform.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- ADD SERVICE -->
+        <div class="col-lg-4">
+            <div class="glass">
+                <h5 class="mb-3">➕ Add New Service</h5>
+
+                <form th:action="@{/admin/services/add}" method="post">
+
+                    <div class="mb-3">
+                        <label>Service Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Price (₹)</label>
+                        <input type="number" class="form-control" name="price" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+
+                    <button class="btn btn-info w-100">
+                        <i class="fa fa-plus"></i> Add Service
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ALL SERVICES -->
+        <div class="col-lg-8">
+            <div class="glass">
+                <h5 class="mb-4">📋 Available Services</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6"
+                         th:each="s : ${services}">
+                        <div class="service-card">
+
+                            <h6 th:text="${s.name}">Service Name</h6>
+                            <p class="small text-light" th:text="${s.description}">
+                                Service description
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">
+                                    ₹ <span th:text="${s.price}">0</span>
+                                </span>
+
+                                <span class="bg-danger">
+                                    <form th:action="@{/admin/delete-service/{id}(id=${s.id})}" method="post">
+                                        <button>Delete</button>
+                                    </form>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="text-center text-muted mt-3"
+                   th:if="${#lists.isEmpty(services)}">
+                    No services added yet.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
