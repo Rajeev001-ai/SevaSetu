@@ -1,12 +1,15 @@
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Build jar first using Maven
 COPY . .
 
+# Make mvnw executable inside container
+RUN chmod +x mvnw
+
+# Build jar
 RUN ./mvnw clean package
 
-# Copy jar to container
+# Copy jar to final location
 COPY target/*.jar app.jar
 
 EXPOSE 8080
