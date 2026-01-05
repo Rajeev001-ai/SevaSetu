@@ -31,7 +31,7 @@
             rgba(0, 0, 0, 0.75),
             rgba(0, 0, 0, 0.4)
           ),
-        var(--hero-bg) center/cover no-repeat;
+        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c')center/cover no-repeat;
         height: 90vh;
         color: white;
         display: flex;
@@ -153,6 +153,10 @@
           font-size: 0.9rem;
         }
       }
+      .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
     </style>
   </head>
   <body>
@@ -171,7 +175,7 @@
     </nav>
 
     <!-- HERO -->
-    <section class="hero" style="--hero-bg: url('/images/default.jpg');">
+    <section class="hero">
       <div class="container" data-aos="fade-right">
         <h1>Professional Home Services<br />in Your City</h1>
         <p class="mt-3">
@@ -185,99 +189,93 @@
       </div>
     </section>
 
-    <!-- SERVICES -->
-    <section class="py-5">
-      <div class="container">
-        <h2 class="text-center section-title mb-3" data-aos="fade-up">Our Services</h2>
-        <p class="text-center text-muted mb-5" data-aos="fade-up">
-          High quality services delivered by trained professionals at your doorstep.
-        </p>
+<!-- SERVICES -->
+<section class="py-5" style="background-color: #f2f5f7;">
+  <div class="container">
+    <h2 class="text-center section-title mb-3" data-aos="fade-up">Our Services</h2>
+    <p class="text-center text-muted mb-5" data-aos="fade-up">
+      High quality services delivered by trained professionals at your doorstep.
+    </p>
 
-        <div class="row g-4">
-          <!-- Service Cards with fallback images -->
-          <div class="col-6 col-md-3" data-aos="zoom-in">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/cleaning.jpg}" alt="Cleaning"/>
-              <div class="card-body">
-                <h5>Home Cleaning</h5>
-                <p class="text-muted small">Deep cleaning for kitchens, bathrooms and full homes using professional tools.</p>
-              </div>
-            </div>
+    <div class="row g-4">
+      <!-- Service Card Template -->
+      <div class="col-6 col-md-3" data-aos="zoom-in">
+        <div class="card h-100 text-white" style="background-color: #FF6B6B; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Home Cleaning</h5>
+            <p class="small">Deep cleaning for kitchens, bathrooms and full homes using professional tools.</p>
           </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/plumber.jpg}" alt="Plumber" />
-              <div class="card-body">
-                <h5>Plumbing</h5>
-                <p class="text-muted small">Leak fixing, tap repair, pipe replacement and bathroom fittings.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/electrical.jpg}" alt="Electrical" />
-              <div class="card-body">
-                <h5>Electrical</h5>
-                <p class="text-muted small">Switch repair, fan installation, wiring and inverter setup.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/ac.jpg}" alt="Ac Repair" />
-              <div class="card-body">
-                <h5>Appliance Repair</h5>
-                <p class="text-muted small">AC, fridge, washing machine and RO servicing by experts.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/mechanical.jpg}" alt="Pest Control" />
-              <div class="card-body">
-                <h5>Pest Control</h5>
-                <p class="text-muted small">Safe and effective pest control for homes and offices.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/painting.jpg}" alt="Painting" />
-              <div class="card-body">
-                <h5>Painting</h5>
-                <p class="text-muted small">Interior & exterior painting with premium quality finishes.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/delivery.jpg}" alt="Delivery" />
-              <div class="card-body">
-                <h5>Delivery</h5>
-                <p class="text-muted small">Trusty Delivery Services</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
-            <div class="card service-card h-100">
-              <img th:src="@{/images/carpentry.jpg}" alt="Carpentry" />
-              <div class="card-body">
-                <h5>Carpentry</h5>
-                <p class="text-muted small">Furniture repair, installation and custom wood work.</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
-    </section>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="card h-100 text-white" style="background-color: #4ECDC4; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Plumbing</h5>
+            <p class="small">Leak fixing, tap repair, pipe replacement and bathroom fittings.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="card h-100 text-white" style="background-color: #1A535C; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Electrical</h5>
+            <p class="small">Switch repair, fan installation, wiring and inverter setup.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="card h-100 text-white" style="background-color: #FFB400; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Appliance Repair</h5>
+            <p class="small">AC, fridge, washing machine and RO servicing by experts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in">
+        <div class="card h-100 text-white" style="background-color: #6A0572; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Pest Control</h5>
+            <p class="small">Safe and effective pest control for homes and offices.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="card h-100 text-white" style="background-color: #FF6B6B; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Painting</h5>
+            <p class="small">Interior & exterior painting with premium quality finishes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="card h-100 text-white" style="background-color: #4ECDC4; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Delivery</h5>
+            <p class="small">Trusty Delivery Services</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="card h-100 text-white" style="background-color: #1A535C; transition: transform 0.3s, box-shadow 0.3s;">
+          <div class="card-body d-flex flex-column justify-content-center text-center p-4">
+            <h5>Carpentry</h5>
+            <p class="small">Furniture repair, installation and custom wood work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 
     <!-- WHY US -->
     <section class="py-5 bg-light">

@@ -1,192 +1,243 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-      body {
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: #fff;
-      }
-      .sidebar {
-        background: #1b263b;
-        min-height: 100vh;
-        padding: 20px;
-      }
-      .sidebar a {
-        color: #cfd8dc;
-        display: block;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        text-decoration: none;
-      }
-      .sidebar a:hover {
-        background: #0f3460;
-        color: #00d4ff;
-      }
-      .card-box {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 15px;
-        padding: 25px;
-        text-align: center;
-      }
-      .card-box i {
-        font-size: 35px;
-        color: #00d4ff;
-      }
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #1b263b;
+            min-height: 100vh;
+            padding: 25px 15px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            color: #cfd8dc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #0f3460;
+            color: #00d4ff;
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
+
+        /* Cards */
+        .card-box {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        .card-box i {
+            font-size: 35px;
+            color: #00d4ff;
+        }
+
+        .table th {
+            color: #9bdcff;
+        }
+
+        .status-badge {
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .approved { background: #e6fffa; color: #0f766e; }
+        .pending { background: #fff7ed; color: #c2410c; }
+        .blocked { background: #fee2e2; color: #b91c1c; }
+
+        .btn-action {
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        @media(max-width:768px){
+            .sidebar {
+                min-height: auto;
+                margin-bottom: 20px;
+            }
+            .card-box { padding: 15px; }
+        }
     </style>
-  </head>
+</head>
 
-  <body>
-    <nav class="navbar navbar-dark bg-dark px-4">
-      <span class="navbar-brand">Admin Panel</span>
-      <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
-    </nav>
+<body>
 
-    <div class="container-fluid">
-      <div class="row">
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
+    <span class="navbar-brand fw-bold">Admin Panel</span>
+    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
         <div class="col-md-2 sidebar">
-          <a href="/admin/dashboard" class="active"><i class="fa fa-home"></i> Dashboard</a>
-          <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
-          <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
-          <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
-          <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
-          <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
-          <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
+            <a href="/admin/dashboard" class="active"><i class="fa fa-home"></i> Dashboard</a>
+            <a href="/admin/users"><i class="fa fa-users"></i> Users</a>
+            <a href="/admin/helpers"><i class="fa fa-user-shield"></i> Helpers</a>
+            <a href="/admin/services"><i class="fa fa-tools"></i> Services</a>
+            <a href="/admin/bookings-status"> <i class="fa fa-list-check"></i> Booking Status </a>
+            <a href="/admin/bookings-assign"><i class="fa fa-user-check"></i> Assign Bookings</a>
+            <a href="/admin/earnings"><i class="fa fa-wallet"></i> Earnings</a>
         </div>
 
+        <!-- MAIN CONTENT -->
         <div class="col-md-10 p-4">
-          <h3 class="mb-4">Dashboard Overview</h3>
+            <h3 class="mb-4">Dashboard Overview</h3>
 
-          <div class="row g-4">
-            <div class="col-md-4">
-              <div class="card-box">
-                <i class="fa fa-users mb-2"></i>
-                <h5>Users</h5>
-                <h3 th:text="${totalUsers}">0</h3>
-              </div>
+            <!-- STATS CARDS -->
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card-box mb-3">
+                        <i class="fa fa-users mb-2"></i>
+                        <h5>Users</h5>
+                        <h3 th:text="${totalUsers}">0</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card-box mb-3">
+                        <i class="fa fa-user-check mb-2"></i>
+                        <h5>Helpers</h5>
+                        <h3 th:text="${totalHelpers}">0</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card-box mb-3">
+                        <i class="fa fa-calendar-check mb-2"></i>
+                        <h5>Bookings</h5>
+                        <h3 th:text="${totalBookings}">0</h3>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="card-box">
-                <i class="fa fa-user-check mb-2"></i>
-                <h5>Helpers</h5>
-                <h3 th:text="${totalHelpers}">0</h3>
-              </div>
+            <!-- PLATFORM INFO -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card-box">
+                        <h4 class="mb-3"><i class="fa fa-chart-line me-2"></i> Platform Overview</h4>
+                        <p class="text-light" style="line-height: 1.8">
+                            Welcome to the <strong>Admin Control Panel</strong>. This dashboard gives you complete control over the Local Service platform. Monitor users, helpers, bookings, and earnings in real-time.
+                        </p>
+                        <p class="text-light" style="line-height: 1.8">
+                            Ensure smooth operations between customers and service providers. Verify helpers, manage services, track booking statuses, and monitor revenue.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="card-box">
-                <i class="fa fa-calendar-check mb-2"></i>
-                <h5>Bookings</h5>
-                <h3 th:text="${totalBookings}">0</h3>
-              </div>
-            </div>
-          </div>
+            <!-- RESPONSIBILITIES & SYSTEM MANAGEMENT -->
+            <div class="row mt-4">
+                <div class="col-12 col-sm-6 mb-3">
+                    <div class="card-box h-100">
+                        <h5 class="mb-3"><i class="fa fa-user-shield me-2"></i> Admin Responsibilities</h5>
+                        <ul style="line-height: 2">
+                            <li>Approve or reject helper registrations</li>
+                            <li>Monitor and manage user activity</li>
+                            <li>Track booking lifecycle from request to completion</li>
+                            <li>Resolve disputes and handle escalations</li>
+                            <li>Ensure data accuracy and system security</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <div class="row mt-5">
-            <div class="col-12">
-              <div class="card-box">
-                <h4 class="mb-3">
-                  <i class="fa fa-chart-line me-2"></i>
-                  Platform Overview
-                </h4>
-
-                <p class="text-light" style="line-height: 1.8">
-                  Welcome to the <strong>Admin Control Panel</strong>. This
-                  dashboard gives you complete control over the Local Service
-                  platform. From here, you can monitor users, helpers, service
-                  bookings, and overall system performance in real-time.
-                </p>
-
-                <p class="text-light" style="line-height: 1.8">
-                  As an administrator, your responsibility is to ensure smooth
-                  operations between customers and service providers. You can
-                  verify helpers, manage active services, track booking
-                  statuses, and monitor revenue generated across the platform.
-                </p>
-
-                <p class="text-light" style="line-height: 1.8">
-                  The statistics above provide a quick snapshot of current
-                  activity. You can dive deeper into each module using the
-                  navigation menu on the left. Each section is designed to give
-                  you detailed insights and full administrative control.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <div class="card-box h-100">
-                <h5 class="mb-3">
-                  <i class="fa fa-user-shield me-2"></i>
-                  Admin Responsibilities
-                </h5>
-
-                <ul style="line-height: 2">
-                  <li>Approve or reject helper registrations</li>
-                  <li>Monitor and manage user activity</li>
-                  <li>Track booking lifecycle from request to completion</li>
-                  <li>Resolve disputes and handle escalations</li>
-                  <li>Ensure data accuracy and system security</li>
-                </ul>
-              </div>
+                <div class="col-12 col-sm-6 mb-3">
+                    <div class="card-box h-100">
+                        <h5 class="mb-3"><i class="fa fa-cogs me-2"></i> System Management</h5>
+                        <ul style="line-height: 2">
+                            <li>Manage available service categories</li>
+                            <li>Enable or disable helpers when required</li>
+                            <li>Monitor platform earnings and commissions</li>
+                            <li>Analyze performance trends</li>
+                            <li>Maintain overall service quality</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="card-box h-100">
-                <h5 class="mb-3">
-                  <i class="fa fa-cogs me-2"></i>
-                  System Management
-                </h5>
-
-                <ul style="line-height: 2">
-                  <li>Manage available service categories</li>
-                  <li>Enable or disable helpers when required</li>
-                  <li>Monitor platform earnings and commissions</li>
-                  <li>Analyze performance trends</li>
-                  <li>Maintain overall service quality</li>
-                </ul>
-              </div>
+            <!-- HELPER MANAGEMENT TABLE -->
+            <div class="card-box mt-5">
+                <h5 class="mb-3"><i class="fa fa-user-shield me-2"></i> Registered Helpers</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>City</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="helper, i : ${helpers}">
+                                <td th:text="${i.count}">1</td>
+                                <td th:text="${helper.name}">Rahul</td>
+                                <td th:text="${helper.email}">rahul@mail.com</td>
+                                <td th:text="${helper.phone}">1234567890</td>
+                                <td th:text="${helper.city}">Delhi</td>
+                                <td th:text="${helper.service}">Plumbing</td>
+                                <td>
+                                    <span class="status-badge"
+                                          th:classappend="${helper.enabled} ? 'approved' : 'blocked'"
+                                          th:text="${helper.enabled ? 'APPROVED' : 'BLOCKED'}">
+                                    </span>
+                                </td>
+                                <td class="d-flex gap-2 flex-wrap">
+                                    <form th:if="${!helper.enabled}" th:action="@{/admin/helper/approve/{id}(id=${helper.id})}" method="post">
+                                        <button class="btn btn-success btn-action"><i class="fa fa-check"></i> Approve</button>
+                                    </form>
+                                    <form th:if="${helper.enabled}" th:action="@{/admin/helper/block/{id}(id=${helper.id})}" method="post">
+                                        <button class="btn btn-danger btn-action"><i class="fa fa-ban"></i> Block</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-muted mt-3" th:if="${#lists.isEmpty(helpers)}">No helpers registered yet.</p>
             </div>
-          </div>
 
-          <div class="row mt-4 mb-5">
-            <div class="col-12">
-              <div class="card-box">
-                <h5 class="mb-2">
-                  <i class="fa fa-info-circle me-2"></i>
-                  Important Note
-                </h5>
-
-                <p class="text-light" style="line-height: 1.8">
-                  This admin panel is designed to scale as the platform grows.
-                  As new services, helpers, and users are added, the dashboard
-                  will automatically reflect updated data. Always ensure helpers
-                  are verified before allowing them to accept bookings to
-                  maintain trust and service quality.
-                </p>
-
-                <p class="text-light" style="line-height: 1.8">
-                  Regularly review booking statuses and earnings reports to
-                  ensure transparency and smooth business operations.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+
+</body>
 </html>
+
