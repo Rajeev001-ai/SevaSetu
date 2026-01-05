@@ -1,14 +1,14 @@
-# Java version
 FROM eclipse-temurin:17-jdk
-
-# App directory
 WORKDIR /app
 
-# Copy jar
+# Build jar first using Maven
+COPY . .
+
+RUN ./mvnw clean package
+
+# Copy jar to container
 COPY target/*.jar app.jar
 
-# Expose port (Render uses 8080 internally)
 EXPOSE 8080
 
-# Run app
 ENTRYPOINT ["java","-jar","/app/app.jar"]
